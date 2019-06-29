@@ -18,6 +18,19 @@
   <script src="<?php echo base_url()?>assets/js/anchrome.js"></script>
   <script src="<?php echo base_url()?>assets/js/bootstrap-datetimepicker.min.js"></script>
   
+
+   
+    <link rel="stylesheet" href="<?php echo base_url();?>assets/css/bootstrap-material-datetimepicker.css" />
+    <link href='https://fonts.googleapis.com/css?family=Roboto:400,500' rel='stylesheet' type='text/css'>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    
+    
+    
+    <script type="text/javascript" src="https://momentjs.com/downloads/moment-with-locales.min.js"></script>
+    <script type="text/javascript" src="<?php echo base_url();?>assets/js/bootstrap-material-datetimepicker.js"></script>
+
+
   <style type="text/css">
     #hidediv{
       display: block;
@@ -29,6 +42,14 @@
     border: none;         /* Reset default border */
     width: 100%;
     height: 700px;
+}
+button
+{
+  color: white !important
+}
+.favcolor
+{
+  border:1px solid black !important;
 }
 body .fc {
 
@@ -103,9 +124,10 @@ li{
       })
     $('.datetime').datetimepicker({
 
-            format: 'H:m'
+            format: 'H:mm',
 
         });
+
   $('.prev i').removeClass();
   $('.prev i').addClass("fa fa-chevron-left");
 
@@ -123,25 +145,29 @@ li{
      right: 'year,month'
     },
     events: '<?php echo base_url();?>ClassroomCalendar/load',
+    
     selectable:true,
     // selectOverlap:false,
     selectHelper:true,
-    timeFormat: 'HH:mm',
+    timeFormat: 'hh:mm t',
     showNonCurrentDates: false,
+    timezone:'local',
+
     
    
 
-    select: function(start, end, allDay)
+    select: function(start, end, timezone, callback)
     {
-
+      
       if(start.isBefore(moment())) {
         $('#calendar').fullCalendar('unselect');
         return false;
     }
-      
+
      
-      var start = $.fullCalendar.formatDate(start, "Y-MM-DD ");
+      var start = $.fullCalendar.formatDate(start, "Y-MM-DD");
       var end = $.fullCalendar.formatDate(end.subtract(1, 'days'), "Y-MM-DD");
+      
       $('#myModal').modal('show');
       $('#myModal').on('hidden.bs.modal', function () {
          location.reload();
@@ -150,10 +176,21 @@ li{
       $("#submit").click(function() {
         if ((document.getElementById("startclock").value!='') && (document.getElementById("endclock").value!='') && (title!='')) 
         {
-          var startime= start+" "+document.getElementById("startclock").value;
+          //taking the time from datepicket and mergin with fullcalendar start object
+        var startime= start+" "+document.getElementById("startclock").value;
+        //converting the datetime in utc format using moment js
+        startime=moment(startime).format();
         var endtime= end+" "+document.getElementById("endclock").value;
+        endtime=moment(endtime).format();
         var title = document.getElementById("eventname").value;
         var description=document.getElementById("description").value;
+
+        // $('.datetime').val(moment().format());
+
+
+
+
+        
          if(title)
      {
      
@@ -164,7 +201,7 @@ li{
        success:function()
        {
         calendar.fullCalendar('refetchEvents');
-        window.location.reload();
+        // window.location.reload();
        }
       });
      }//
@@ -287,12 +324,39 @@ li{
 
    });
   };
-   
+   function setpostcolor(color)
+   {
+    var postcolor= color.value;
+      $.ajax({
+           url:'<?php echo base_url();?>ClassroomCalendar/setpostcolor',
+           type:"POST",
+           data:{color:color.value},
+           success:function(data)
+           {}
+          })
+   }
+
+
   </script>
 
 
  </head>
  <body class="text-center">
+
+<!--   <div class="container well">
+      <div class="row">
+        <div class="col-md-6">
+          <h2>A demo of time picker</h2>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-control-wrapper">
+            <input type="text" id="time-demo" class="form-control floating-label" placeholder="Time">
+          </div>
+        </div>
+      </div>
+    </div> -->
 <?php 
 
 
@@ -415,6 +479,19 @@ li{
                       <input type="text" id="endclock" class="form-control datetime" name="end_date">
 
                     </div>
+                  </br>
+                    <div class="col-md-12">
+                      <label for="p-in" class="col-md-4 label-heading">Select Event Color</label>
+                      
+                      <button class="btn favcolor" value="green" style="background-color: green" onclick="setpostcolor(this)">Green</button>
+                      <button class="btn favcolor" value="blue" style="background-color: blue" onclick="setpostcolor(this)">Blue</button>
+                      <button class="btn favcolor" value="red" style="background-color: red" onclick="setpostcolor(this)">Red</button>
+                      <button class="btn favcolor" value="yellow" style="background-color: yellow;color: black !important" onclick="setpostcolor(this)">Yellow</button>
+                      <button class="btn favcolor" value="purple" style="background-color: purple" onclick="setpostcolor(this)">Purple</button>
+
+                    </div>
+
+                    
 
             </div>
 
@@ -448,8 +525,19 @@ li{
         
         <!-- Modal body -->
         <div class="modal-body">
-                      
+          <div role="tabpanel">
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li role="presentation" class="active"><a href="#uploadTab" aria-controls="uploadTab" role="tab" data-toggle="tab">Event Settings</a>
 
+                        </li>
+                        <li role="presentation"><a href="#browseTab" aria-controls="browseTab" role="tab" data-toggle="tab">Students List</a>
+
+                        </li>
+                    </ul>
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane active" id="uploadTab">
             <div class="form-group">
 
                     <label for="p-in" class="col-md-4 label-heading">Event Name</label>
@@ -481,7 +569,8 @@ li{
 
                     <div class="col-md-12">
 
-                        <input type="text" id="edstartclock" class="form-control datetime" name="start_date" required="required">
+                        <!-- <input type="text" id="edstartclock" class="form-control datetime" name="start_date" required="required"> -->
+                        <input type="text" id="time-demo" class="form-control floating-label" placeholder="Time">
 
                     </div>
 
@@ -497,7 +586,32 @@ li{
 
                     </div>
 
-            </div>
+                    <div class="col-md-12">
+                      <label for="p-in" class="col-md-4 label-heading">Select Event Color</label>
+                      
+                      <button class="btn favcolor" value="green" style="background-color: green" onclick="setpostcolor(this)">Green</button>
+                      <button class="btn favcolor" value="blue" style="background-color: blue" onclick="setpostcolor(this)">Blue</button>
+                      <button class="btn favcolor" value="red" style="background-color: red" onclick="setpostcolor(this)">Red</button>
+                      <button class="btn favcolor" value="yellow" style="background-color: yellow;color: black !important" onclick="setpostcolor(this)">Yellow</button>
+                      <button class="btn favcolor" value="purple" style="background-color: purple" onclick="setpostcolor(this)">Purple</button>
+
+                    </div>
+
+            </div></div>
+                        <div role="tabpanel" class="tab-pane" id="browseTab">
+                          <select>
+                            <option>Student's Name</option>
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                          </select>
+                          <label>Event Time on Student's Region</label>
+                          <span id="studname"></span>
+                        </div>
+                    </div>
+                </div>
+                      
+
             
             
         </div>
@@ -517,7 +631,20 @@ li{
   </div>
   <!-- ****************Edit event -->
   <!---->
+<script type="text/javascript">
+    $(document).ready(function()
+    {
+           $('#time-demo').bootstrapMaterialDatePicker
+      ({
+        date: false,
+        shortTime: false,
+        format: 'HH:mm'
+      });
 
+
+      $.material.init()
+    });
+    </script>
  </body>
 
 

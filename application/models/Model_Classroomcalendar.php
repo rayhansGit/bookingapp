@@ -13,11 +13,11 @@ class Model_Classroomcalendar extends CI_Model
 		$this->db->query("DELETE FROM classroombooking WHERE id=$id");
 			
 	}
-	public function insert($start,$end,$title,$description)
+	public function insert($start,$end,$title,$description,$favcolor)
 	{
 		$roomid=$_SESSION['roomid'];
 		$userid='"'.($_SESSION['username']).'"';
-		$this->db->query("INSERT INTO classroombooking (title, start_event, end_event, roomid,userid,description) VALUES ('$title', '$start', '$end', '$roomid',$userid,'$description')");
+		$this->db->query("INSERT INTO classroombooking (title, start_event, end_event, roomid,userid,description,favcolor) VALUES ('$title', '$start', '$end', '$roomid',$userid,'$description','$favcolor')");
 	
 	}
 	public function load()
@@ -32,10 +32,10 @@ class Model_Classroomcalendar extends CI_Model
 		
 	}
 		
-	public function update($title,$start,$end,$id,$description)
+	public function update($title,$start,$end,$id,$description,$color)
 	{
 		
-		$this->db->query("UPDATE classroombooking SET title='$title', start_event='$start', end_event='$end', description='$description' WHERE id='$id'");
+		$this->db->query("UPDATE classroombooking SET title='$title', start_event='$start', end_event='$end', description='$description', favcolor='$color' WHERE id='$id'");
 		
 		
 	}
@@ -63,7 +63,7 @@ class Model_Classroomcalendar extends CI_Model
 	{
 		var_dump($from);
 		var_dump($to);
-		$this->db->query("INSERT into classroombooking (userid,roomid,title,start_event,end_event,description) SELECT userid,'$to',title,start_event,end_event,description FROM classroombooking WHERE roomid='$from'");
+		$this->db->query("INSERT into classroombooking (userid,roomid,title,start_event,end_event,description,favcolor) SELECT userid,'$to',title,start_event,end_event,description,favcolor FROM classroombooking WHERE roomid='$from'");
 	}
 
 }

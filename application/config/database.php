@@ -6,10 +6,10 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => 'caldev-104057.mysql.stwcp.net',
-	'username' => '104057_gd55762',
-	'password' => 'Caldev2019!',
-	'database' => '104057-caldev',
+	'hostname' => 'localhost',
+	'username' => 'root',
+	'password' => '',
+	'database' => 'bookingfiverr',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,

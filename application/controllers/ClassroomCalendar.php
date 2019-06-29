@@ -39,6 +39,11 @@
 			$id=(int)($this->input->post("id"));
 			$this->mc->bookroomfornonexistingbooking($id);
 		}
+		public function setpostcolor()
+		{
+			var_dump($_SESSION['postcolor']);
+			$_SESSION['postcolor']= $this->input->post('color');
+		}
 		
 		// public function index()
 		// {
@@ -82,10 +87,13 @@
 			$end=$this->input->post("end");
 			$description=$this->input->post("description");
 			$title=$this->input->post("title");
+			$color= $_SESSION['postcolor'];
+			
 			
 			
 			$this->load->model('Model_Classroomcalendar','sl');
-			$this->sl->insert($start,$end,$title,$description);
+			$this->sl->insert($start,$end,$title,$description,$color);
+			$_SESSION['postcolor']='black';
 			
 		}
 		public function set()
@@ -107,7 +115,7 @@
 				  	'title'   => $row["title"],
 				  	'start'   => $row["start_event"],
 				  	'end'   => $row["end_event"],
-				  	'color' => 'green',
+				  	'color' => $row["favcolor"],
 	      			'textColor' => 'white',
 				 );
 				}
@@ -160,8 +168,9 @@
 			$end=$this->input->post("end");
 			$id=$this->input->post("id");
 			$description=$this->input->post("description");
+			$color= $_SESSION['postcolor'];
 			$this->load->model('Model_Classroomcalendar','sl');
-			$this->sl->update($title,$start,$end,$id,$description);
+			$this->sl->update($title,$start,$end,$id,$description,$color);
 			
 		}	
 
