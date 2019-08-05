@@ -455,18 +455,7 @@ textarea {
   <div class="container">
     <div class="col-md-12 text-center">
       <ul>
-        <?php
-      foreach ($cal as $key) {
-      
-
-      echo "<button class='btn btn-success' id='".$key["numbers"]."' onclick='reply_click(this.id)'>".$key['numbers']."</button>";
-      }
-      ?>
-        <!-- <li><button class="btn btn-success" id="101" onclick="reply_click(this.id)">ROOM 101</button></li>
-         <li><button class="btn btn-success" id="102" onclick="reply_click(this.id)">ROOM 102</button></li>
-         <li><button class="btn btn-success" id="103" onclick="reply_click(this.id)">ROOM 103</button></li>
-         <li><button class="btn btn-success" id="104" onclick="reply_click(this.id)">ROOM 104</button></li>
-         <li><button class="btn btn-success" id="105" onclick="reply_click(this.id)">ROOM 105</button></li> -->
+       
       </ul>
     </div>
 

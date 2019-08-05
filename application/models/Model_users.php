@@ -97,4 +97,52 @@ class Model_Users extends CI_Model
 		}
 	}
 
+	public function checkbuilderexist($firstname,$lastname,$email,$phonenumber,$address)
+	{
+		$query= $this->db->query("SELECT * FROM builder WHERE firstname='$firstname' and lastname='$lastname' and email='$email' and phonenumber='$phonenumber' and address='$address'")->num_rows();
+
+		return $query;
+	}
+	public function checkcontractorexist($firstname,$lastname,$email,$phonenumber,$address)
+	{
+		$query= $this->db->query("SELECT * FROM subcontractors WHERE firstname='$firstname' and lastname='$lastname' and email='$email' and phonenumber='$phonenumber' and address='$address'")->num_rows();
+
+		return $query;
+	}
+	public function checktechnicianexist($firstname,$lastname,$email,$phonenumber,$address)
+	{
+		$query= $this->db->query("SELECT * FROM technician WHERE firstname='$firstname' and lastname='$lastname' and email='$email' and phonenumber='$phonenumber' and address='$address'")->num_rows();
+
+		return $query;
+	}
+
+	public function insertbuilder($firstname,$lastname,$email,$phonenumber,$address)
+	{
+		$this->db->query("INSERT INTO builder (firstname,lastname,email,phonenumber,address) VALUES ('$firstname','$lastname','$email','$phonenumber','$address')");
+	}
+	public function inserttech($firstname,$lastname,$email,$phonenumber,$address)
+	{
+		$this->db->query("INSERT INTO technician (firstname,lastname,email,phonenumber,address) VALUES ('$firstname','$lastname','$email','$phonenumber','$address')");
+	}
+	public function insertsubcontractor($firstname,$lastname,$email,$phonenumber,$address)
+	{
+		$this->db->query("INSERT INTO subcontractors (firstname,lastname,email,phonenumber,address) VALUES ('$firstname','$lastname','$email','$phonenumber','$address')");
+	}
+
+	public function gettechnicians()
+	{
+		$result= $this->db->query("SELECT * from technician ORDER BY id")->result_array();
+		return $result;
+	}
+	public function getbuilders()
+	{
+		$result= $this->db->query("SELECT * from builder ORDER BY id")->result_array();
+		return $result;
+	}
+	public function getsubcontractors()
+	{
+		$result= $this->db->query("SELECT * from subcontractors ORDER BY id")->result_array();
+		return $result;
+	}
+
 }

@@ -4,10 +4,9 @@ class Pages extends MY_Controller
 {
     public function index()
     {
-        $this->load->model("Model_Classroomcalendar","mc");
-        $data['cal']=$this->mc->calendars();
         
-        $this->load->view('userview',$data);
+        
+        $this->load->view('userview');
 
        
     }
@@ -22,7 +21,14 @@ class Pages extends MY_Controller
         
         if (isset($_SESSION['username'])) {
             $this->load->model("Model_Classroomcalendar","mc");
-        $data['cal']=$this->mc->calendars();
+            $jobs= $this->mc->loadunassignedjobs();
+            $technicians= $this->mc->getTechnicianNames();
+            $builders= $this->mc->getBuildersNames();
+            // $subcontractors= $this->mc->getsubcontractorNames();
+            $data['jobs']=$jobs;
+            $data['technicians']=$technicians;
+            $data['builders']=$builders;
+            // $data['subcontractors']=$subcontractors;
         
         $this->load->view('classroomcalendar',$data);
         }

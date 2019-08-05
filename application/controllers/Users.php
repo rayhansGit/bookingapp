@@ -109,5 +109,51 @@ class Users extends MY_Controller
 			return false;			
 		} // /else	
 	}
+	public function register()
+		{
+			$this->load->view('register');
+			if ($this->input->post('submit')!=null) {
+				
+			
+			$firstname=$this->input->post('firstname');
+			$lastname=$this->input->post('lastname');
+			$email=$this->input->post('email');
+			$phonenumber=$this->input->post('phonenumber');
+			$address=$this->input->post('address');
+			$type=$this->input->post('type');
+
+			if ($type=='Builder') {
+				$this->load->model('Model_users','mu');
+				$check= $this->mu->checkbuilderexist($firstname,$lastname,$email,$phonenumber,$address);
+
+				if ($check==0) {
+					$this->mu->insertbuilder($firstname,$lastname,$email,$phonenumber,$address);
+					echo "Builder Registration Successful!";
+					header( "refresh:2;url=register" );
+				}
+			}
+			else if ($type=='Sub Contractor') {
+				$this->load->model('Model_users','mu');
+				$check= $this->mu->checkcontractorexist($firstname,$lastname,$email,$phonenumber,$address);
+
+				if ($check==0) {
+					$this->mu->insertsubcontractor($firstname,$lastname,$email,$phonenumber,$address);
+					echo "Sub contractor Registration Successful!";
+					header( "refresh:2;url=register" );
+				}
+			}
+			else if ($type=='Technician') {
+				$this->load->model('Model_users','mu');
+				$check= $this->mu->checktechnicianexist($firstname,$lastname,$email,$phonenumber,$address);
+
+				if ($check==0) {
+					$this->mu->inserttech($firstname,$lastname,$email,$phonenumber,$address);
+					echo "Technician Registration Successful!";
+					header( "refresh:2;url=register" );
+				}
+			}
+		    	}
+
+		}
 
 }
