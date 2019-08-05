@@ -139,11 +139,15 @@ li{
     editable:false,
     height:500,
     firstDay:1,
+    defaultView: 'agendaWeek',
+    titleRangeSeparator: ' - ',
+    
     header:{
      left:'prev,next today',
      center:'title',
      right: 'year,month'
     },
+
     events: '<?php echo base_url();?>ClassroomCalendar/load',
     
     selectable:true,
@@ -152,6 +156,9 @@ li{
     timeFormat: 'hh:mm t',
     showNonCurrentDates: false,
     timezone:'local',
+     validRange: {
+      end: new Date(Date.now() + 1000*60*60*24*60)//ms+second+hour+day+numberofdays(60 means 2month)
+    },
 
     
    
@@ -167,6 +174,7 @@ li{
      
       var start = $.fullCalendar.formatDate(start, "Y-MM-DD");
       var end = $.fullCalendar.formatDate(end.subtract(1, 'days'), "Y-MM-DD");
+
       
       $('#myModal').modal('show');
       $('#myModal').on('hidden.bs.modal', function () {

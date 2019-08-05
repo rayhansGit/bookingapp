@@ -37,12 +37,12 @@ class Pages extends MY_Controller
     public function editcal()
     {
     	
-    	// if (isset($_SESSION['username'])) {
-     //        $this->load->model("Model_Classroomcalendar","mc");
-     //        $data['cal']=$this->mc->calendars();
+    	if (isset($_SESSION['username'])) {
+            $this->load->model("Model_Classroomcalendar","mc");
+            $data['cal']=$this->mc->calendars();
         
-     //    $this->load->view('editcal',$data);
-     //    }
+        $this->load->view('editcal',$data);
+        }
     }
     public function logout()
     {

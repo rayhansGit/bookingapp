@@ -66,4 +66,15 @@ class Model_Classroomcalendar extends CI_Model
 		$this->db->query("INSERT into classroombooking (userid,roomid,title,start_event,end_event,description,favcolor) SELECT userid,'$to',title,start_event,end_event,description,favcolor FROM classroombooking WHERE roomid='$from'");
 	}
 
+	public function exportevents($calfrom,$startdate,$enddate)
+	{
+
+
+		$calendars= $this->db->query("SELECT * from classroombooking WHERE roomid IN (".implode(',', $calfrom).") and start_event>'$startdate' and end_event<'$enddate' ORDER BY start_event")->result_array();
+
+		// $query= $this->db->query("INSERT into classroombooking (userid,roomid,title,start_event,end_event,description,favcolor) SELECT userid,'$calto',title,start_event,end_event,description,favcolor FROM classroombooking WHERE roomid='$calfrom' AND start_event>'$startdate' AND end_event<'$enddate'");
+		return $calendars;
+		
+	}
+
 }

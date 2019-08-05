@@ -93,7 +93,7 @@
 			
 			$this->load->model('Model_Classroomcalendar','sl');
 			$this->sl->insert($start,$end,$title,$description,$color);
-			$_SESSION['postcolor']='black';
+			$_SESSION['postcolor']='#3788d8';
 			
 		}
 		public function set()
