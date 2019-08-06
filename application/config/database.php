@@ -6,10 +6,10 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => 'ho2019-104057.mysql.stwcp.net',
-	'username' => '104057_bk99634',
-	'password' => 'akCal#2019!',
-	'database' => '104057-ho2019',
+	'hostname' => 'localhost',
+	'username' => 'root',
+	'password' => '',
+	'database' => 'bookingfiverr',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,
